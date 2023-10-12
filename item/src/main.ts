@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice(ItemModule, {
     transport: Transport.TCP,
     options: {
-      host: 'localhost',
+      host: 'items',
       port: new ConfigService().get('port'),
     },
   } as TcpOptions);

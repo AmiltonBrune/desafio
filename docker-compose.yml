@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     ports:
-      - '8000:8000'
+      - "${API_GATEWAY_PORT}:${API_GATEWAY_PORT}"
     networks:
       - backend
       - frontend
@@ -18,6 +18,8 @@ services:
     hostname: items
     env_file:
       - .env
+    ports:
+      - "${ITEMS_SERVICE_PORT}:${ITEMS_SERVICE_PORT}"
     networks:
       - backend
     depends_on:
@@ -29,6 +31,8 @@ services:
     hostname: mailer
     env_file:
       - .env
+    ports:
+      - "${MAILER_SERVICE_PORT}:${MAILER_SERVICE_PORT}"
     networks:
       - backend
 
@@ -38,6 +42,8 @@ services:
     hostname: permission
     env_file:
       - .env
+    ports:
+      - "${PERMISSION_SERVICE_PORT}:${PERMISSION_SERVICE_PORT}"
     networks:
       - backend
 
@@ -47,6 +53,8 @@ services:
     hostname: token
     env_file:
       - .env
+    ports:
+      - "${TOKEN_SERVICE_PORT}:${TOKEN_SERVICE_PORT}"
     networks:
       - backend
     depends_on:
@@ -58,6 +66,8 @@ services:
     hostname: user
     env_file:
       - .env
+    ports:
+      - "${USER_SERVICE_PORT}:${USER_SERVICE_PORT}"
     networks:
       - backend
     depends_on:
@@ -73,11 +83,12 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
       MONGO_USER: ${MONGO_USER}
       MONGO_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_DSN: "mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@db:27017" # Usando o nome do serviço `db`
     volumes:
       - './db/data/db-files:/data/db'
       - './db/init/:/docker-entrypoint-initdb.d/'
     ports:
-      - 27017:27017
+      - "27017:27017"
     networks:
       - backend
 
