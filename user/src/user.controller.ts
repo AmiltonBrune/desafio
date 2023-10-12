@@ -168,11 +168,11 @@ export class UserController {
               to: createdUser.email,
               subject: 'Email confirmation',
               html: `<center>
-              <b>Hi there, please confirm your email to use Smoothday.</b><br>
-              Use the following link for this.<br>
+              <b>Olá esse é o link para você ativar a sua conta e conseguir acesso o sistema.</b><br>
+              Clique noo link<br>
               <a href="${this.userService.getConfirmationLink(
                 userLink.link,
-              )}"><b>Confirm The Email</b></a>
+              )}"><b>Para confirmar o seu email.</b></a>
               </center>`,
             })
             .toPromise();

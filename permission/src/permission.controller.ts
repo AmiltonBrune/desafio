@@ -31,10 +31,6 @@ export class PermissionController {
         permissionParams.permission,
       );
 
-      console.log('====================================');
-      console.log('entrou aqui -->', { allowedPermissions, isAllowed });
-      console.log('====================================');
-
       result = {
         status: isAllowed ? HttpStatus.OK : HttpStatus.FORBIDDEN,
         message: isAllowed

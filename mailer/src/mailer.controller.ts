@@ -11,19 +11,11 @@ export class MailerController {
 
   @MessagePattern('mail_send')
   async mailSend(data: IEmailData): Promise<IMailSendResponse> {
-    console.log('====================================');
-    console.log('chegou aqui -->', { data });
-    console.log('====================================');
-
-    const result = await this.mailService.sendMail({
+    await this.mailService.sendMail({
       html: data?.html,
       subject: data?.subject,
       to: data?.to,
     });
-
-    console.log('====================================');
-    console.log('result -->', result);
-    console.log('====================================');
 
     return {
       status: HttpStatus.ACCEPTED,

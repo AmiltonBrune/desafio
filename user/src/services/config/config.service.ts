@@ -4,12 +4,6 @@ export class ConfigService {
   private readonly envConfig: { [key: string]: any } = null;
 
   constructor() {
-    console.log('====================================');
-    console.log(
-      'chamou process.env.MAILER_SERVICE_HOST --<',
-      process.env.MAILER_SERVICE_HOST,
-    );
-    console.log('====================================');
     this.envConfig = {
       port: process.env.USER_SERVICE_PORT,
     };
