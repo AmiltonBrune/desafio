@@ -1,30 +1,78 @@
-# Por que Escolhi Microserviços?
+# Documentação da API
 
-Decidi estruturar minha aplicação usando uma arquitetura de microserviços pelas seguintes razões:
+## Visão Geral
 
-## Vantagens:
+Esta documentação cobre os endpoints e métodos HTTP disponíveis na API.
 
-1. **Escalabilidade**: Com microserviços, posso escalar cada serviço independentemente, com base em sua própria demanda.
-2. **Flexibilidade**: Cada serviço pode ser desenvolvido, implantado e mantido usando diferentes tecnologias, permitindo-me usar a melhor tecnologia para cada tarefa.
-3. **Resiliência**: Se um serviço falhar, ele não derruba o sistema inteiro.
-4. **Implantação Mais Rápida**: Uma base de código menor para cada serviço facilita e agiliza o desenvolvimento, teste e implantação.
-5. **Encapsulamento**: Cada serviço é responsável por uma função específica, o que garante fronteiras claras e uma melhor separação de responsabilidades.
-6. **Velocidade de Desenvolvimento**: Com equipes trabalhando de forma independente em cada serviço, posso desenvolver recursos mais rapidamente e responder a problemas mais eficientemente.
+## Endpoints Disponíveis
 
-## Visão Geral da Arquitetura:
+### `/register`
 
-Considerando a configuração do `docker-compose` que elaborei, a arquitetura pode ser representada da seguinte forma:
+- **Método**: POST
+- **Descrição**: Cria uma nova conta de usuário.
+- **Payload**: 
+  - `email`: [String] O email do usuário desejado.
+  - `password`: [String] A senha para a conta.
+
+### `/login`
+
+- **Método**: POST
+- **Descrição**: Autentica um usuário e retorna um token.
+- **Payload**: 
+  - `email`: [String] O email do usuário.
+  - `password`: [String] A senha do usuário.
+
+### `/items`
+
+- **Método**: POST
+- **Descrição**: Adiciona um novo item.
+- **Payload**: 
+  - `name`: [String] Nome do item.
+  - `description`: [String] Descrição do item.
+
+- **Método**: GET
+- **Descrição**: Retorna a lista de todos os itens.
+
+- **Método**: PUT
+- **Descrição**: Atualiza um item existente.
+- **Payload**: 
+  - `id`: [String] ID do item.
+  - `name`: [String] Novo nome do item.
+  - `description`: [String] Nova descrição do item.
+
+- **Método**: DELETE
+- **Descrição**: Remove um item.
+- **Payload**: 
+  - `id`: [String] ID do item a ser removido.
+
+### `/users`
+
+- **Método**: GET
+- **Descrição**: Retorna as informações do usuário criado.
+
+## Por que Escolhi Microserviços?
+
+### Vantagens:
+
+1. **Escalabilidade**: Escalar cada serviço independentemente.
+2. **Flexibilidade**: Uso de diferentes tecnologias para cada serviço.
+3. **Resiliência**: Falhas em um serviço não derrubam o sistema inteiro.
+4. **Implantação Mais Rápida**: Facilita e agiliza desenvolvimento, teste e implantação.
+5. **Encapsulamento**: Fronteiras claras e melhor separação de responsabilidades.
+6. **Velocidade de Desenvolvimento**: Desenvolvimento de recursos mais rapidamente e resposta eficiente a problemas.
+
+### Visão Geral da Arquitetura:
 
 +---------------------+
 | Aplicativo Frontend |
 +---------------------+
-|
-v
+           |
+           v
 +---------------------+
-| Gateway |
+|      Gateway        |
 +---------------------+
-|
-v
+           |
+           v
 +-------+----+--------+----+---------+----+
 | Items | Mailer | Permission | Token| User |
 +-------+----+--------+----+---------+----+
@@ -32,26 +80,15 @@ v
 
 ### Microserviços:
 
-- **Gateway**: Atua como o principal ponto de entrada para todas as solicitações e as direciona para o microserviço apropriado.
-  
-- **Items**: Serviço que criei para lidar com tudo relacionado a itens.
-
-- **Mailer**: Este serviço é dedicado ao envio de e-mails e notificações.
-
-- **Permission**: Administra as permissões dos usuários.
-
-- **Token**: Responsável pela autenticação e geração de tokens.
-
-- **User**: Gerencia o registro de usuários, login e outras funcionalidades relacionadas.
-
-- **DB (MongoDB)**: Banco de dados que escolhi para armazenar e recuperar dados de vários serviços. Alguns, como 'items' e 'token', têm dependências diretas deste serviço.
+- **Gateway**: Ponto de entrada para todas as solicitações.
+- **Items**: Lida com tudo relacionado a itens.
+- **Mailer**: Dedicado ao envio de e-mails e notificações.
+- **Permission**: Administra permissões dos usuários.
+- **Token**: Autenticação e geração de tokens.
+- **User**: Gerencia registro de usuários, login, etc.
+- **DB (MongoDB)**: Armazena e recupera dados de vários serviços.
 
 ### Redes:
 
-- **Backend**: Uma rede que permite que todos os serviços se comuniquem entre si.
-  
-- **Frontend**: Uma rede que conecta o aplicativo frontend ao serviço Gateway.
-
-Optei por conterizar cada serviço, garantindo isolamento e que eles tenham tudo o que precisam para funcionar. A utilização do `docker-compose` facilita a orquestração e gestão destes containers.
-
----
+- **Backend**: Permite que todos os serviços se comuniquem entre si.
+- **Frontend**: Conecta o aplicativo frontend ao serviço Gateway.
