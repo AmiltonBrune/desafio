@@ -99,8 +99,6 @@ export class ItemController {
 
     if (itemBody) {
       try {
-        itemBody.notification_id = null;
-        itemBody.is_solved = false;
         const items = await this.itemService.createItem(itemBody);
         result = {
           status: HttpStatus.CREATED,
