@@ -8,6 +8,10 @@ export async function getUserData({ token }) {
   });
 }
 
+export async function register({ email, password }) {
+  return api.post('/users', { email, password });
+}
+
 export async function confirmMail({ code }) {
   return api.get(`/users/confirm/${code}`);
 }

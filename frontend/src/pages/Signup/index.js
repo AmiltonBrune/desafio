@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
 
@@ -17,22 +16,26 @@ import {
   Form,
 } from './styles';
 import logo_image from 'assets/svgs/logo.svg';
-import sigin_backgroud_image from 'assets/svgs/sigin_backgroud_image.svg';
+import register_image from 'assets/svgs/register.svg';
 
-function Signin() {
+function Signup() {
   const [values, setVaues] = useState({});
+  const navigate = useNavigate();
 
   const { isShowingLoading, toggleLoading } = useModal();
-  const { signIn } = useAuth();
-   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleChange = (e) => {
     setVaues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    toggleLoading();
-    await signIn(values.email, values.password);
+    signup(values.email, values.password)
+      .then(() => {
+        alert('usuário cadastrado com sucesso');
+        navigate('/');
+      })
+      .catch(() => {});
   };
 
   return (
@@ -41,7 +44,7 @@ function Signin() {
         <LogoContainer>
           <Logo src={logo_image} alt='logo' />
         </LogoContainer>
-        <Tille>Login</Tille>
+        <Tille>Cadastro</Tille>
         <Form>
           <Input
             label='Email'
@@ -59,19 +62,19 @@ function Signin() {
           />
 
           <Button type='submit' color='#fff' onClick={handleSubmit}>
-            entrar
+            cadastrar
           </Button>
           <Button
             bgColor='linear-gradient(white, white) padding-box,linear-gradient(to right,rgb(231, 76, 60), rgb(192, 57, 43), rgb(183, 28, 28)) border-box'
             isBorder='true'
-            onClick={() => navigate('/signup')}
+            onClick={() => navigate('/')}
           >
-            cadastrar
+            entrar
           </Button>
         </Form>
       </Content>
       <ContentBackgroud>
-        <img src={sigin_backgroud_image} alt='sigin_backgroud_image' />
+        <img src={register_image} alt='register_image' />
       </ContentBackgroud>
       <Loading
         isShowingLoading={isShowingLoading}
@@ -81,4 +84,4 @@ function Signin() {
   );
 }
 
-export default Signin;
+export default Signup;

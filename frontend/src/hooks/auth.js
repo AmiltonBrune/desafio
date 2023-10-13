@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { login, logout, getUserData } from '../server';
+import { login, logout, getUserData, confirmMail, register } from '../server';
 import { useModal } from './modal';
 
 const AuthContext = createContext();
@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
     return !!isLogged;
   });
   const [user, setUser] = useState({});
+  const [isVerify, setIsVerify] = useState(false);
   const { setIsShowinLoading } = useModal();
 
   const signIn = async (email, password, rememberMe) => {
@@ -31,6 +32,16 @@ const AuthProvider = ({ children }) => {
         setIsShowinLoading(false);
         setLogged(false);
         alert('Senha ou email inválido!');
+      }
+    }
+  };
+
+  const signup = async (email, password) => {
+    if (email && password) {
+      try {
+        await register({ email, password });
+      } catch (error) {
+        alert('Erro ao cadastrar usuário/usuário já cadastrado');
       }
     }
   };
@@ -61,8 +72,29 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const confirmationRegisterUser = async ({ code }) => {
+    try {
+      await confirmMail({ code });
+      setIsVerify(true);
+    } catch (error) {
+      setIsVerify(false);
+      alert('Erro ao verificar usuário');
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ logged, signIn, signOut, getUser, user }}>
+    <AuthContext.Provider
+      value={{
+        logged,
+        signIn,
+        signOut,
+        getUser,
+        user,
+        confirmationRegisterUser,
+        isVerify,
+        signup,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
