@@ -8,6 +8,6 @@ export const userSignupRequestFailNoPw = {
 };
 
 export const userSignupRequestFailInvalidEmail = {
-  email: 'testdenrox.com',
+  email: 'testtest.com',
   password: 'test11',
 };

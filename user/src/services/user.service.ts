@@ -53,8 +53,6 @@ export class UserService {
   }
 
   public getConfirmationLink(link: string): string {
-    return `${this.configService.get('baseUri')}:${this.configService.get(
-      'gatewayPort',
-    )}/users/confirm/${link}`;
+    return `http://localhost:3000/activate-account/${link}`;
   }
 }
